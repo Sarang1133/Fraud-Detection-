@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transaction Result</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding-top: 60px; }
+        .card { background: white; padding: 30px; border-radius: 12px; width: 400px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .safe { color: green; }
+        .danger { color: red; }
+        .recent { margin-top: 20px; font-size: 0.9em; background: #f8f9fa; padding: 10px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>Transaction Analysis Result</h2>
+    <p><b>Transaction Type:</b> {{ result.transaction_type }}</p>
+    <p><b>Amount:</b> ${{ "%.2f"|format(result.amount) }}</p>
+    <p><b>Prediction:</b> <span class="{{ 'danger' if result.prediction == 'Fraudulent' else 'safe' }}">{{ result.prediction }}</span></p>
+    <p><b>Fraud Probability:</b> {{ result.probability }}</p>
+    <p><b>Risk Level:</b> {{ result.risk_level }}</p>
+    <p><b>Recommendation:</b> {{ result.recommendation }}</p>
+
+    {% if recent_predictions %}
+    <div class="recent">
+        <h4>Recent Predictions</h4>
+        <ul>
+            {% for pred in recent_predictions %}
+            <li>{{ pred.timestamp }} - {{ pred.transaction_type }} - ${{ pred.amount }} - {{ pred.prediction }} ({{ pred.risk_level }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="/" style="color: #5a48f2;">← Try another transaction</a>
+    </div>
+</div>
+</body>
+</html>
